@@ -19,27 +19,34 @@ function createSpace() {
   return string;
 }
 
-function updateSpace() {
-  const string = createSpace();
+function updateSpace(string) {
   let updatedString = '';
   
   for (let index = 0; index < string.length; index++) {
-    if (index === generateRandom(index - 80, index + 80)) {
-      updatedString += '*';
+    if (index % 80 === 0) {
+      updatedString += '\n';
       continue;
     }
 
-    updatedString += index % 80 === 0 ? '\n' : string[index];
+    if (index === generateRandom(index - 30, index + 30) && string[index] !== '+') {
+      updatedString += '+';
+      continue;
+    }
+
+    updatedString += string[index];
   }
 
   return updatedString;
 }
 
 function motion() {
-  for (let index = 0; index < 80; index++) {
+  let string = createSpace();
+
+  for (let index = 0; index < 260; index++) {
     console.clear();
-    console.log(updateSpace());
-    delay(400000000);
+    string = updateSpace(string);
+    console.log(string);
+    delay(200000000);
   }
 }
 
