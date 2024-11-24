@@ -1,22 +1,50 @@
 const LENGTH = 40;
 const WIDTH = 20;
 
-function delay(range) {
-  for (let index = 0; index < range; index++);
+function repeat(string, length) {
+  let repeatedString = '';
+
+  for (let index = 0; index < length; index++) {
+    repeatedString += string;
+  }
+
+  return repeatedString;
 }
 
 function generateRandom(from, to) {
   return from + Math.floor((Math.random()) * (to - from));
 }
 
+function thrusterMovement() {
+  return generateRandom(0, 2) === 0 ? '<=======[~ ~ ~\n' : '<=======[~~\n';
+}
+
+function rocket() {
+  const spaceBeforeRocket = repeat(' ', LENGTH);
+  const rocketBody = repeat(' ', LENGTH - 4) + thrusterMovement();
+
+  return spaceBeforeRocket + '/|\n' + rocketBody + spaceBeforeRocket + '\\|'; 
+}
+
+function delay(range) {
+  for (let index = 0; index < range; index++);
+}
+
 function createSpace() {
-  let string = '';
-  
-  for (let index = 0; index < LENGTH * WIDTH; index++) {
-    string += index % 80 === 0 ? '\n' : ' ';
+  const string = repeat(' ', LENGTH * WIDTH);
+  return string;
+}
+
+function updateSpaceContents(string, index) {
+  if (string[index] === '-') {
+    return ' ';
   }
 
-  return string;
+  if (string[index - 1] === '-') {
+    return '-';
+  }
+
+  return string[index];
 }
 
 function updateSpace(string) {
@@ -28,12 +56,12 @@ function updateSpace(string) {
       continue;
     }
 
-    if (index === generateRandom(index - 30, index + 30) && string[index] !== '+') {
-      updatedString += '+';
+    if (index === generateRandom(0, 5 * LENGTH * WIDTH)) {
+      updatedString += '-';
       continue;
     }
-
-    updatedString += string[index];
+    
+    updatedString += updateSpaceContents(string, index);
   }
 
   return updatedString;
@@ -42,11 +70,14 @@ function updateSpace(string) {
 function motion() {
   let string = createSpace();
 
-  for (let index = 0; index < 260; index++) {
+  for (let index = 0; index < 2600; index++) {
     console.clear();
     string = updateSpace(string);
     console.log(string);
-    delay(200000000);
+    console.log(rocket());
+    console.log(string);
+
+    delay(80000000);
   }
 }
 
