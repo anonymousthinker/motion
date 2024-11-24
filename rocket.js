@@ -51,17 +51,12 @@ function updateSpace(string) {
   let updatedString = '';
   
   for (let index = 0; index < string.length; index++) {
-    if (index % 80 === 0) {
-      updatedString += '\n';
-      continue;
-    }
-
     if (index === generateRandom(0, 5 * LENGTH * WIDTH)) {
       updatedString += '-';
       continue;
     }
     
-    updatedString += updateSpaceContents(string, index);
+    updatedString += index % 80 === 0 ? '\n' : updateSpaceContents(string, index);
   }
 
   return updatedString;
