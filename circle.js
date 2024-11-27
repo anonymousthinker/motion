@@ -1,9 +1,12 @@
-const HEIGHT = 30;
-const WIDTH = 30;
-const ORIGIN = 405;
+const LENGTH = 200;
+const BREADTH = 100;
 
 function delay(value) {
   for (let index = 0; index < value; index++) { }
+}
+
+function stringIndex(xPos, yPos) {
+  return (yPos * BREADTH) + xPos;
 }
 
 function makeBackgroundContents(index) {
@@ -11,7 +14,7 @@ function makeBackgroundContents(index) {
     return '.';
   }
 
-  if (index % 30 === 0) {
+  if (!(index % LENGTH)) {
     return '\n';
   }
 
@@ -21,7 +24,7 @@ function makeBackgroundContents(index) {
 function makeBackground() {
   let background = '';
 
-  for (let index = 1; index <= HEIGHT * WIDTH; index++) {
+  for (let index = 1; index <= LENGTH * BREADTH; index++) {
     background += makeBackgroundContents(index);
   }
 
@@ -46,19 +49,21 @@ function updateBackground(background, x, y) {
   return updatedBg;
 }
 
+const ORIGIN = stringIndex(BREADTH / 2, LENGTH / 2);
+
 function main() {
-  const radius = 5;
+  const radius = 10;
   let angle = 0;
   
   while (true) {
     let background = makeBackground();
     console.clear();
     const xCoordinate = Math.round((Math.cos(angle)) * 2 * radius) + ORIGIN;
-    const yCoordinate = Math.round((Math.sin(angle)) * radius) * 30 + ORIGIN;
-    angle = angle + Math.PI / 20;
+    const yCoordinate = Math.round((Math.sin(angle)) * radius) * LENGTH + ORIGIN;
+    angle = angle + Math.PI / 180;
 
     console.log(updateBackground(background, xCoordinate, yCoordinate));
-    delay(50000000);
+    delay(5000000);
   }
 }
 
