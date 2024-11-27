@@ -14,7 +14,7 @@ function makeBackgroundContents(index) {
     return '.';
   }
 
-  if (index % LENGTH === 0) {
+  if (!(index % LENGTH)) {
     return '\n';
   }
 
@@ -57,7 +57,7 @@ function main() {
   let background = makeBackground();
   let index = 0;
   let yCoordinate = 0
-  
+
   while (index < 60) {
     while (yCoordinate !== ORIGIN) {
       console.clear();
@@ -70,7 +70,7 @@ function main() {
       console.log(background);
       delay(30000000);
     }
-    
+
     index += 1;
     ORIGIN -= 4 * radius;
     angle = 0;
